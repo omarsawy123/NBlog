@@ -1,0 +1,30 @@
+# HTTP Requests for Authentication API
+# For more info on HTTP files, visit: https://aka.ms/vs/httpfile
+
+@baseUrl = {{HostAddress}}/api/auth
+
+### Retrieve All Users
+GET {{baseUrl}}/all
+
+### User Login
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+    "email": "test@mail.com",
+    "password": "Test@1234"
+}
+
+### User Registration
+POST {{baseUrl}}/register
+Content-Type: application/json
+
+{
+    "username": "test",
+    "email": "test2@mail.com",
+    "password": "Test@1234"
+}
+
+### Delete User by ID
+DELETE {{baseUrl}}/delete/6
+Content-Type: application/json

@@ -1,0 +1,11 @@
+﻿@baseUrl = {{HostAddress}}/api/article
+
+
+POST {{baseUrl}}/create
+Content-Type: application/json
+{
+	"title": "Test Article",
+	"content": "This is a test article",
+	"subHeading": "Test subHeading",
+	"userId": 7
+}
