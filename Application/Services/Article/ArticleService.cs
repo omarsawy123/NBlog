@@ -1,7 +1,9 @@
 ﻿using Application.Dtos;
 using Application.Shared;
 using Domain.Entites;
+using FluentValidation;
 using Infrastructure.Repos;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -11,30 +13,56 @@ namespace Application.Services.ArticleService
     {
         private readonly BaseRepo<Article, int> _articleRepository;
         private readonly ILogger<ArticleService> _logger;
+        private readonly IValidator<ArticleFilterQuery> _queryValidator;
 
-        public ArticleService(BaseRepo<Article, int> articleRepository, ILogger<ArticleService> logger)
+        public ArticleService(BaseRepo<Article, int> articleRepository,
+            ILogger<ArticleService> logger,
+            IValidator<ArticleFilterQuery> queryValidator)
         {
             _articleRepository = articleRepository;
             _logger = logger;
+            _queryValidator = queryValidator;
         }
 
 
-        public async Task<IEnumerable<ArticleDto>> GetAllArticles()
+        public async Task<Result<IEnumerable<ArticleDto>>> GetAllArticles(ArticleFilterQuery filterQuery)
         {
-            var articles = await _articleRepository.GetAll().ToListAsync();
-            return articles.Select(article => new ArticleDto
+            try
             {
-                ArticleId = article.ArticleId,
-                Title = article.Title,
-                SubHeading = article.SubHeading, 
-                AuthorName = article.User.UserName!,
-                AuthorProfilePic = "",
-                CreatedAt = article.CreatedAt
-            });
+
+                var validQuery = await _queryValidator.ValidateAsync(filterQuery);
+
+                if (!validQuery.IsValid)
+                {
+                    return Result<IEnumerable<ArticleDto>>.Failure(StatusCodes.Status400BadRequest, validQuery.Errors.Select(e => e.ErrorMessage));
+                }
+
+                var query = _articleRepository.GetAll()
+                    .Where(a => a.Title.Contains(filterQuery.SearchKey) || a.SubHeading.Contains(filterQuery.SearchKey))
+                    .Select(a => new ArticleDto
+                    {
+                        ArticleId = a.ArticleId,
+                        Title = a.Title,
+                        SubHeading = a.SubHeading,
+                        AuthorName = a.User.UserName!,
+                    });
+
+                var result = await query.ToListAsync();
+
+                return Result<IEnumerable<ArticleDto>>.Success(result, StatusCodes.Status200OK);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while fetching all articles.");
+                return Result<IEnumerable<ArticleDto>>.Failure(StatusCodes.Status500InternalServerError);
+
+            }
         }
 
         public async Task<Result> CreateArticle(CreateArticleDto createArticleDto)
         {
+
             var article = new Article
             {
                 Title = createArticleDto.Title,

@@ -1,6 +1,9 @@
 ﻿@baseUrl = {{HostAddress}}/api/article
 
 
+GET {{baseUrl}}/getAll?searchKey="Test"
+
+
 POST {{baseUrl}}/create
 Content-Type: application/json
 {
@@ -9,3 +12,4 @@ Content-Type: application/json
 	"subHeading": "Test subHeading",
 	"userId": 7
 }
+

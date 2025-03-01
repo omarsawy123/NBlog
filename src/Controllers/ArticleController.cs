@@ -1,6 +1,5 @@
 ﻿using Application.Dtos;
 using Application.Services.ArticleService;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace NBlog.Controllers
@@ -16,7 +15,13 @@ namespace NBlog.Controllers
             _articleService = articleService;
         }
 
-        
+
+        [HttpGet("getAll")]
+        public async Task<IActionResult> GetAllArticles([FromQuery] ArticleFilterQuery filterQuery)
+        {
+            var result = await _articleService.GetAllArticles(filterQuery);
+            return Ok(result);
+        }
 
         [HttpPost("create")]
         public async Task<IActionResult> CreateArticle([FromBody] CreateArticleDto createArticleDto)
