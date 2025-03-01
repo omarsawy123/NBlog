@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Services.ArticleService.Validators
 {
-    internal class ArticleQueryValidator : AbstractValidator<ArticleFilterQuery>
+    public class ArticleQueryValidator : AbstractValidator<ArticleFilterQuery>
     {
         public ArticleQueryValidator() {
 
