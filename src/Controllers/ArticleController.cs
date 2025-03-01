@@ -1,4 +1,4 @@
-﻿using Application.Dtos;
+using Application.Dtos;
 using Application.Services.ArticleService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,8 +15,7 @@ namespace NBlog.Controllers
             _articleService = articleService;
         }
 
-
-        [HttpGet("getAll")]
+        [HttpGet("all")]
         public async Task<IActionResult> GetAllArticles([FromQuery] ArticleFilterQuery filterQuery)
         {
             var result = await _articleService.GetAllArticles(filterQuery);
@@ -26,7 +25,24 @@ namespace NBlog.Controllers
                 return Ok(result);
             }
             return StatusCode(StatusCodes.Status500InternalServerError, result);
+        }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetArticleById(int id)
+        {
+            var result = await _articleService.GetArticleById(id);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+
+            if (result.StatusCode == StatusCodes.Status404NotFound)
+            {
+                return NotFound(result);
+            }
+
+            return StatusCode(result.StatusCode, result);
         }
 
         [HttpPost("create")]
