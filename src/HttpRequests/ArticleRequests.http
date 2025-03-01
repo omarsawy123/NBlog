@@ -1,7 +1,7 @@
 ﻿@baseUrl = {{HostAddress}}/api/article
 
 
-GET {{baseUrl}}/getAll?searchKey="Test"
+GET {{baseUrl}}/getAll?searchKey=Test
 
 
 POST {{baseUrl}}/create
