@@ -20,7 +20,13 @@ namespace NBlog.Controllers
         public async Task<IActionResult> GetAllArticles([FromQuery] ArticleFilterQuery filterQuery)
         {
             var result = await _articleService.GetAllArticles(filterQuery);
-            return Ok(result);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return StatusCode(StatusCodes.Status500InternalServerError, result);
+
         }
 
         [HttpPost("create")]

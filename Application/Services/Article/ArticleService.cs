@@ -45,6 +45,8 @@ namespace Application.Services.ArticleService
                         Title = a.Title,
                         SubHeading = a.SubHeading,
                         AuthorName = a.User.UserName!,
+                        CreatedAt = a.CreatedAt,
+                        UpdatedAt = a.UpdatedAt
                     });
 
                 var result = await query.ToListAsync();
