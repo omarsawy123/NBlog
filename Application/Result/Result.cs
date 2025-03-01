@@ -36,6 +36,8 @@
     {
         public T Value { get; }
 
+        private static readonly string DefaultErrorMessage = "An unexpected error occurred. Please try again later.";
+
         protected Result(bool isSuccess, int statusCode, string? error, T value) : base(isSuccess, statusCode, error)
         {
             Value = value;
@@ -44,6 +46,17 @@
         public static Result<T> Success(T value, int statusCode)
         {
             return new Result<T>(true, statusCode, null, value);
+        }
+
+        new public static Result<T> Failure(int statusCode, string? error = null)
+        {
+            return new Result<T>(false, statusCode, error ?? DefaultErrorMessage, default);
+        }
+
+        new public static Result<T> Failure(int statusCode, IEnumerable<string> error)
+        {
+            string errors = string.Join(",", error);
+            return new Result<T>(false, statusCode, errors, default);
         }
 
     }

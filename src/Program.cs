@@ -1,5 +1,6 @@
 using Application.Dtos;
 using Application.Services.ArticleService;
+using Application.Services.ArticleService.Validators;
 using Application.Services.Auth;
 using Application.Services.Auth.Validators;
 using Application.Shared;
@@ -32,6 +33,7 @@ namespace NBlog
             builder.Services.AddScoped<AuthService>();
             builder.Services.AddScoped<IValidator<RegisterDto>, RegisterValidator>();
             builder.Services.AddScoped<IValidator<LoginDto>, LoginValidator>();
+            builder.Services.AddScoped<IValidator<ArticleFilterQuery>, ArticleQueryValidator>();
 
             builder.Services.AddScoped<ArticleService>();
             builder.Services.AddScoped<BaseRepo<Article,int>>();

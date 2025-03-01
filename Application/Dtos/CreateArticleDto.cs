@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Application.Dtos
+﻿namespace Application.Dtos
 {
     public class CreateArticleDto
     {
-        public string Title { get; set; }
-        public string SubHeading { get; set; }
-        public string Content { get; set; }
+        public string Title { get; set; } = null!;
+        public string SubHeading { get; set; } = null!;
+        public string Content { get; set; } = null!;
         public int UserId { get; set; }
     }
 }

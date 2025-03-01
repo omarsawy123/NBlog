@@ -1,6 +1,5 @@
-﻿using Application.Dtos;
+using Application.Dtos;
 using Application.Services.ArticleService;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace NBlog.Controllers
@@ -16,7 +15,35 @@ namespace NBlog.Controllers
             _articleService = articleService;
         }
 
-        
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllArticles([FromQuery] ArticleFilterQuery filterQuery)
+        {
+            var result = await _articleService.GetAllArticles(filterQuery);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return StatusCode(StatusCodes.Status500InternalServerError, result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetArticleById(int id)
+        {
+            var result = await _articleService.GetArticleById(id);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+
+            if (result.StatusCode == StatusCodes.Status404NotFound)
+            {
+                return NotFound(result);
+            }
+
+            return StatusCode(result.StatusCode, result);
+        }
 
         [HttpPost("create")]
         public async Task<IActionResult> CreateArticle([FromBody] CreateArticleDto createArticleDto)
