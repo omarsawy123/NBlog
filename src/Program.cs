@@ -18,6 +18,17 @@ namespace NBlog
 {
     public class Program
     {
+        /// <summary>
+        /// Initializes and runs the ASP.NET Core web application.
+        /// </summary>
+        /// <remarks>
+        /// Configures the application builder by registering controllers, Swagger/OpenAPI support, 
+        /// dependency injection for authentication, DTO validators (including those for registration, login, article queries, and creation), 
+        /// article management services, and a generic article repository. Sets up the database context with SQL Server and an auditing interceptor,
+        /// configures Identity with custom user and password options, and establishes JWT authentication parameters. Finally, it builds
+        /// the HTTP request pipeline (enabling Swagger UI in development, HTTPS redirection, authentication, and authorization) and starts the application.
+        /// </remarks>
+        /// <param name="args">Command-line arguments.</param>
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);

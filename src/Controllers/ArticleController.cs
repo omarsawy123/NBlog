@@ -45,6 +45,13 @@ namespace NBlog.Controllers
             return StatusCode(result.StatusCode, result);
         }
 
+        /// <summary>
+        /// Creates a new article using the provided data.
+        /// </summary>
+        /// <param name="createArticleDto">A DTO containing the details required to create a new article.</param>
+        /// <returns>
+        /// A 200 OK response with the result if the article is created successfully, or a 500 Internal Server Error response if the creation fails.
+        /// </returns>
         [HttpPost("create")]
         public async Task<IActionResult> CreateArticle([FromBody] CreateArticleDto createArticleDto)
         {
@@ -56,6 +63,27 @@ namespace NBlog.Controllers
             return StatusCode(StatusCodes.Status500InternalServerError, result);
         }
 
+        /// <summary>
+        /// Updates an existing article using the provided update details.
+        /// </summary>
+        /// <param name="updateArticleDto">A data transfer object containing the updated article information.</param>
+        /// <returns>
+        /// An IActionResult representing the HTTP response:
+        /// <list type="bullet">
+        /// <item>
+        /// <description>200 OK with the result if the update is successful.</description>
+        /// </item>
+        /// <item>
+        /// <description>404 Not Found if the article does not exist.</description>
+        /// </item>
+        /// <item>
+        /// <description>403 Forbidden if the update is not permitted.</description>
+        /// </item>
+        /// <item>
+        /// <description>An appropriate status code for any other errors.</description>
+        /// </item>
+        /// </list>
+        /// </returns>
         [HttpPut("update")]
         public async Task<IActionResult> UpdateArticle([FromBody] UpdateArticleDto updateArticleDto)
         {
