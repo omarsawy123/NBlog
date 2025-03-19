@@ -16,15 +16,13 @@ namespace Application.Services.ArticleService
         private readonly IValidator<ArticleFilterQuery> _queryValidator;
         private readonly IValidator<CreateArticleDto> _createValidator;
         private readonly IValidator<UpdateArticleDto> _updateValidator;
-        private readonly IValidator<int> _idValidator;
 
         public ArticleService(
             BaseRepo<Domain.Entites.Article, int> articleRepository,
             ILogger<ArticleService> logger,
             IValidator<ArticleFilterQuery> queryValidator,
             IValidator<CreateArticleDto> createValidator,
-            IValidator<UpdateArticleDto> updateValidator,
-            IValidator<int> idValidator
+            IValidator<UpdateArticleDto> updateValidator
         )
         {
             _articleRepository = articleRepository;
@@ -32,7 +30,6 @@ namespace Application.Services.ArticleService
             _queryValidator = queryValidator;
             _createValidator = createValidator;
             _updateValidator = updateValidator;
-            _idValidator = idValidator;
         }
 
         public async Task<Result<IEnumerable<ArticleDto>>> GetAllArticles(
@@ -117,15 +114,7 @@ namespace Application.Services.ArticleService
         {
             try
             {
-                var validationResult = await _idValidator.ValidateAsync(id);
-
-                if (!validationResult.IsValid)
-                {
-                    return Result<ArticleDetailDto>.Failure(
-                        StatusCodes.Status400BadRequest,
-                        validationResult.Errors.Select(e => e.ErrorMessage)
-                    );
-                }
+                
 
                 var article = await _articleRepository.GetByIdAsync(id);
 

@@ -35,8 +35,7 @@ namespace NBlog
             builder.Services.AddScoped<IValidator<LoginDto>, LoginValidator>();
             builder.Services.AddScoped<IValidator<ArticleFilterQuery>, ArticleQueryValidator>();
             builder.Services.AddScoped<IValidator<CreateArticleDto>, CreateArticleValidator>();
-            builder.Services.AddScoped<IValidator<int>, ArticleIdValidator>();
-
+           
 
             builder.Services.AddScoped<ArticleService>();
             builder.Services.AddScoped<BaseRepo<Article,int>>();
