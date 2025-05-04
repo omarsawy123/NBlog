@@ -17,6 +17,18 @@ namespace Application.Services.ArticleService
         private readonly IValidator<CreateArticleDto> _createValidator;
         private readonly IValidator<UpdateArticleDto> _updateValidator;
 
+        /// <summary>
+        /// Initializes a new instance of the ArticleService with the specified repository and validators.
+        /// </summary>
+        /// <remarks>
+        /// This constructor establishes the service's dependencies for article operations, including data access
+        /// via a repository and validation for filter queries, article creation, updates, and identifier integrity.
+        /// </remarks>
+        /// <param name="articleRepository">The repository for accessing domain article entities.</param>
+        /// <param name="queryValidator">Validates filter queries for retrieving articles.</param>
+        /// <param name="createValidator">Validates data for creating new articles.</param>
+        /// <param name="updateValidator">Validates data for updating existing articles.</param>
+        /// <param name="idValidator">Validates article identifier values.</param>
         public ArticleService(
             BaseRepo<Domain.Entites.Article, int> articleRepository,
             ILogger<ArticleService> logger,
@@ -32,6 +44,13 @@ namespace Application.Services.ArticleService
             _updateValidator = updateValidator;
         }
 
+        /// <summary>
+        /// Retrieves articles that match the provided filter query.
+        /// </summary>
+        /// <param name="filterQuery">The filter criteria used to search articles by title or subheading.</param>
+        /// <returns>
+        /// An asynchronous task that returns a Result containing an enumerable of ArticleDto. On success, the result includes the matched articles with a 200 status code; if the query is invalid, it returns a failure result with a 400 status code, or a 500 status code if an internal error occurs.
+        /// </returns>
         public async Task<Result<IEnumerable<ArticleDto>>> GetAllArticles(
             ArticleFilterQuery filterQuery
         )
@@ -78,6 +97,16 @@ namespace Application.Services.ArticleService
             }
         }
 
+        /// <summary>
+        /// Validates and creates a new article.
+        /// </summary>
+        /// <remarks>
+        /// Validates the provided article creation data. On validation failure, returns a result with a 400 status code and corresponding error messages.
+        /// If valid, creates a new article from the provided data and adds it to the repository, returning the created article with a 201 status code.
+        /// Any exceptions encountered are logged and yield a failure result with a 500 status code.
+        /// </remarks>
+        /// <param name="createArticleDto">Data transfer object containing the article details.</param>
+        /// <returns>A result containing the created article and a status code indicating the operation's outcome.</returns>
         public async Task<Result<Domain.Entites.Article>> CreateArticle(CreateArticleDto createArticleDto)
         {
             try
@@ -110,6 +139,19 @@ namespace Application.Services.ArticleService
             }
         }
 
+        /// <summary>
+        /// Retrieves the details of an article using its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the article to retrieve.</param>
+        /// <returns>
+        /// A Result containing an ArticleDetailDto with HTTP status codes as follows:
+        /// <list type="bullet">
+        /// <item><description>200 if the article is found.</description></item>
+        /// <item><description>400 if the provided ID fails validation.</description></item>
+        /// <item><description>404 if no article exists with the given ID.</description></item>
+        /// <item><description>500 if an unexpected error occurs.</description></item>
+        /// </list>
+        /// </returns>
         public async Task<Result<ArticleDetailDto>> GetArticleById(int id)
         {
             try
@@ -147,6 +189,14 @@ namespace Application.Services.ArticleService
             }
         }
 
+        /// <summary>
+        /// Validates the update details and applies changes to an existing article.
+        /// </summary>
+        /// <param name="updateArticleDto">The DTO containing the article's new title, subheading, content, and identification details necessary for validation and authorization.</param>
+        /// <returns>
+        /// A result containing the updated article with a 200 status code on success, or a failure result with appropriate status codes:
+        /// 400 for validation errors, 404 if the article is not found, 403 if the user is not authorized, and 500 in case of an exception.
+        /// </returns>
         public async Task<Result<Domain.Entites.Article>> UpdateArticle(UpdateArticleDto updateArticleDto)
         {
             try

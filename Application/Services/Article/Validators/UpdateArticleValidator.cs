@@ -5,6 +5,29 @@ namespace Application.Services.Article.Validators
 {
     public class UpdateArticleValidator : AbstractValidator<UpdateArticleDto>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateArticleValidator"/> class with validation rules for updating articles.
+        /// </summary>
+        /// <remarks>
+        /// This validator enforces the following rules for an <see cref="UpdateArticleDto"/>:
+        /// <list type="bullet">
+        ///   <item>
+        ///     <description><c>ArticleId</c> must be greater than 0.</description>
+        ///   </item>
+        ///   <item>
+        ///     <description><c>Title</c> is required and cannot exceed 100 characters.</description>
+        ///   </item>
+        ///   <item>
+        ///     <description><c>SubHeading</c> is required and cannot exceed 200 characters.</description>
+        ///   </item>
+        ///   <item>
+        ///     <description><c>Content</c> is required.</description>
+        ///   </item>
+        ///   <item>
+        ///     <description><c>UserId</c> must be greater than 0.</description>
+        ///   </item>
+        /// </list>
+        /// </remarks>
         public UpdateArticleValidator()
         {
             RuleFor(x => x.ArticleId)

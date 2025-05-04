@@ -1,4 +1,4 @@
-﻿using Application.Dtos;
+using Application.Dtos;
 using Application.Shared;
 using Domain.Entites;
 using Domain.Enums;
@@ -47,6 +47,24 @@ namespace Application.Services.Auth
             }).ToListAsync();
         }
 
+        /// <summary>
+        /// Attempts to register a new user with the provided registration details by validating input, checking for an existing email, creating the user, and assigning a default role.
+        /// </summary>
+        /// <param name="registerDto">An object containing the user's registration details, including username, email, and password.</param>
+        /// <returns>
+        /// A Task that represents the asynchronous operation. The Result object indicates:
+        /// <list type="bullet">
+        ///   <item>
+        ///     <description>Success (HTTP 201) if the registration completes successfully.</description>
+        ///   </item>
+        ///   <item>
+        ///     <description>Failure (HTTP 400) if input validation fails, the email is already registered, or user creation fails.</description>
+        ///   </item>
+        ///   <item>
+        ///     <description>Failure (HTTP 500) if role assignment fails or an unexpected error occurs.</description>
+        ///   </item>
+        /// </list>
+        /// </returns>
         public async Task<Result> RegisterUser(RegisterDto registerDto)
         {
             try
