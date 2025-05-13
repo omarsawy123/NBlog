@@ -1,0 +1,19 @@
+language: "en-US"
+early_access: false
+reviews:
+  profile: "chill"
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: true
+  review_status: true
+  collapse_walkthrough: false
+  path_instructions:
+    - path: "**/*.cs"
+      instructions: |
+        - Review the C# code against the Microsoft C# style guide and point out any mismatches
+        - Check for any use of try-catch blocks and suggest alternatives
+  auto_review:
+    enabled: true
+    drafts: false
+chat:
+  auto_reply: true
