@@ -4,6 +4,10 @@ early_access: false
 enable_free_tier: true
 reviews:
   profile: chill
+  path_instructions:
+    - path: "**/*.cs"
+      instructions: |
+        Review the C# code and ensure not to use try-catch blocks
   request_changes_workflow: false
   high_level_summary: true
   high_level_summary_placeholder: '@coderabbitai summary'
