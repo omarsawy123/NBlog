@@ -1,6 +1,5 @@
 using Application.Dtos;
 using Application.Shared;
-using Domain.Entites;
 using FluentValidation;
 using Infrastructure.Repos;
 using Microsoft.AspNetCore.Http;
@@ -78,6 +77,36 @@ namespace Application.Services.ArticleService
             }
         }
 
+
+        public async Task<Result<ArticleDto>> GetArticleByIdNew(int id)
+        {
+            try
+            {
+
+                var query = await _articleRepository.GetByIdAsync(id);
+
+                var result = new ArticleDto
+                {
+                    ArticleId = query.ArticleId,
+                    Title = query.Title,
+                    SubHeading = query.SubHeading,
+                    AuthorName = query.User.UserName!,
+                    AuthorProfilePic = "",
+                    CreatedAt = query.CreatedAt,
+                    UpdatedAt = query.UpdatedAt,
+                };
+
+                return Result<ArticleDto>.Success(result, StatusCodes.Status200OK);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while fetching all articles.");
+                return Result<ArticleDto>.Failure(
+                    StatusCodes.Status500InternalServerError
+                );
+            }
+        }
+
         public async Task<Result<Domain.Entites.Article>> CreateArticle(CreateArticleDto createArticleDto)
         {
             try
@@ -114,7 +143,7 @@ namespace Application.Services.ArticleService
         {
             try
             {
-                
+
 
                 var article = await _articleRepository.GetByIdAsync(id);
 
