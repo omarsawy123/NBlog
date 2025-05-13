@@ -78,23 +78,12 @@ namespace Application.Services.ArticleService
         }
 
 
-        public async Task<Result<ArticleDto>> GetArticleByIdNew(int id)
+        public async Task<Result<ArticleDto>> GetArticleNew()
         {
             try
             {
 
-                var query = await _articleRepository.GetByIdAsync(id);
-
-                var result = new ArticleDto
-                {
-                    ArticleId = query.ArticleId,
-                    Title = query.Title,
-                    SubHeading = query.SubHeading,
-                    AuthorName = query.User.UserName!,
-                    AuthorProfilePic = "",
-                    CreatedAt = query.CreatedAt,
-                    UpdatedAt = query.UpdatedAt,
-                };
+                var result = new ArticleDto();
 
                 return Result<ArticleDto>.Success(result, StatusCodes.Status200OK);
             }
