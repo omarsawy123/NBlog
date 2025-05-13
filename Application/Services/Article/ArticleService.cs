@@ -78,12 +78,11 @@ namespace Application.Services.ArticleService
         }
 
 
-        public async Task<Result<ArticleDto>> GetArticleNew()
+        public async Task<Result<ArticleDto>> GetArticleEmpty()
         {
             try
             {
-
-                var result = new ArticleDto();
+                ArticleDto result = new ArticleDto();
 
                 return Result<ArticleDto>.Success(result, StatusCodes.Status200OK);
             }
