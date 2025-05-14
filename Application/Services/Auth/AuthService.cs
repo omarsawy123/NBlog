@@ -77,7 +77,7 @@ namespace Application.Services.Auth
                 if (userResult is null || !userResult.Succeeded)
                 {
                     string userErrors = string.Join(",", userResult?.Errors.Select(r => r.Description) ?? []);
-                    return Result.Failure(StatusCodes.Status500InternalServerError, userErrors);
+                    return Result.Failure(StatusCodes.Status400BadRequest, userErrors);
                 }
 
                 var roleResult = await _userManager.AddToRoleAsync(user, Enum.GetName(RoleType.User)!);

@@ -55,5 +55,28 @@ namespace NBlog.Controllers
             }
             return StatusCode(StatusCodes.Status500InternalServerError, result);
         }
+
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateArticle([FromBody] UpdateArticleDto updateArticleDto)
+        {
+            var result = await _articleService.UpdateArticle(updateArticleDto);
+            
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+
+            if (result.StatusCode == StatusCodes.Status404NotFound)
+            {
+                return NotFound(result);
+            }
+
+            if (result.StatusCode == StatusCodes.Status403Forbidden)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, result);
+            }
+
+            return StatusCode(result.StatusCode, result);
+        }
     }
 }
