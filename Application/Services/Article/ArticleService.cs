@@ -80,8 +80,10 @@ namespace Application.Services.ArticleService
 
         public async Task<Result<ArticleDto>> GetArticleEmpty()
         {
+            // Testing if rabbit will notice try-catch blocks
             try
             {
+                
                 ArticleDto result = new ArticleDto();
 
                 return Result<ArticleDto>.Success(result, StatusCodes.Status200OK);
