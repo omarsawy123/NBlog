@@ -30,7 +30,6 @@ reviews:
   poem: true
   labeling_instructions: []
   path_filters: []
-  path_instructions: []
   abort_on_close: true
   disable_cache: false
   auto_review:
